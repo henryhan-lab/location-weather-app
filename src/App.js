@@ -10,28 +10,28 @@ function App() {
   const [location, setLocation] = useState(null);
   const [map, setMap] = useState(null);
   const startingPosition = { lat: 40.7357, lng: -74.1724 };
-  const [lnglat, setLnglat] = useState(startingPosition);
+  const [latlng, setLatLng] = useState(startingPosition);
   const openWeatherKey = '058d0a4d8e0854cbd38a034edce29b3e';
   const googlePlacesKey = 'AIzaSyDgWbaJbfYaTV3XpQ9OF1iL8wNfHcXrkh0'
   const { data, isLoading, errorMessage } = useOpenWeather({
     key: openWeatherKey,
-    lat: lnglat.lat,
-    lon: lnglat.lng,
+    lat: latlng.lat,
+    lon: latlng.lng,
     lang: "en",
     unit: "metric",
   });
   useEffect(() => {
     if (location != null) {
-      geocodeByAddress(location?.value?.description)//geocode address and updates value to latlng each time location, lnglat changes 
+      geocodeByAddress(location?.value?.description)//geocode address and updates value to latlng each time location, latlng changes 
         .then((results) => getLatLng(results[0]))
-        .then(({ lat, lng }) => setLnglat({ lat, lng }));
+        .then(({ lat, lng }) => setLatLng({ lat, lng }));
     }
-  }, [location, lnglat]);
+  }, [location, latlng]);
   useEffect(() => {
     if (map != null) {
-      map.setView(lnglat, 10);//updates the view of map each time map, lnglat changes 
+      map.setView(latlng, 10);//updates the view of map each time map, latlng changes 
     }
-  }, [map, lnglat]);
+  }, [map, latlng]);
   return (
     <React.Fragment>
       <div
